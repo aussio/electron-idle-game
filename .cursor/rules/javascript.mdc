@@ -4,6 +4,14 @@ globs: *.js
 ---
 
 # Javascript
+- Write javascript with ES6 modele syntax.
+```
+# Good
+import { Menu } from 'electron'
+# Bad
+const { Menu } = require('electron')
+
+```
 - All CSS must belong within CSS files and not inline within the javascript
 - All code should be as simple and readable as possible.
 

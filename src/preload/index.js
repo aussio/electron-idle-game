@@ -1,4 +1,4 @@
-import { contextBridge } from 'electron'
+import { contextBridge, ipcRenderer } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
 
 // Custom APIs for renderer
@@ -11,6 +11,14 @@ if (process.contextIsolated) {
   try {
     contextBridge.exposeInMainWorld('electron', electronAPI)
     contextBridge.exposeInMainWorld('api', api)
+    contextBridge.exposeInMainWorld('electronAPI', {
+      // Expose a minimal set of IPC functionality
+      on: (channel, callback) => {
+        if (channel === 'select-game') {
+          ipcRenderer.on(channel, (_, data) => callback(data))
+        }
+      }
+    })
   } catch (error) {
     console.error(error)
   }

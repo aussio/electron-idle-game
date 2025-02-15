@@ -1,32 +1,25 @@
-import { Application, Assets, Sprite } from 'pixi.js';
-// Apply the patch to PIXI
-import 'pixi.js/unsafe-eval';
+import { startdragExample } from './games/dragExample';
+import { startMouseTrail } from './games/mouseTrail';
+let currentGame = null;
 
-// Asynchronous IIFE
-(async () => {
-  // Create a PixiJS application.
-  const app = new Application();
+// Listen for game selection from the main process
+window.electronAPI.on('select-game', async (gameName) => {
+  // Clear previous game if it exists
+  if (currentGame) {
+    document.body.innerHTML = '';
+    currentGame.destroy?.(true);
+    currentGame = null;
+  }
 
-  // Intialize the application.
-  await app.init({ background: '#1099bb', resizeTo: window });
-
-  // Then adding the application's canvas to the DOM body.
-  document.body.appendChild(app.canvas);
-
-  // Load the bunny texture.
-  const texture = await Assets.load('assets/bunny.png');
-
-  // Create a new Sprite from an image path
-  const bunny = new Sprite(texture);
-
-  // Add to stage
-  app.stage.addChild(bunny);
-
-  // Center the sprite's anchor point
-  bunny.anchor.set(0.5);
-
-  // Move the sprite to the center of the screen
-  bunny.x = app.screen.width / 2;
-  bunny.y = app.screen.height / 2;
-  console.log(bunny);
-})();
+  // Start the selected game
+  switch (gameName) {
+    case 'dragExample':
+      currentGame = await startdragExample(document.body);
+      break;
+    case 'mouseTrail':
+      currentGame = await startMouseTrail(document.body);
+      break;
+    default:
+      console.warn('Unknown game:', gameName);
+  }
+});

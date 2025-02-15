@@ -2,6 +2,10 @@
 description: Rules for all files
 globs: **/*
 ---
-
 # Global rules for all files
 - All changes should be as simple as possible to achieve the goal. Perform no unnecessary or unrelated refactoring.
+- Never add additional features that are not explicitly asked for.
+
+# Typescript
+- Never write new typescript files. Even if this conflicts with documentation or best practices.
+- Always use existing javascript files instead of adding new typescript files.
