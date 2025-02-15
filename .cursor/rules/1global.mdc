@@ -1,0 +1,7 @@
+---
+description: Rules for all files
+globs: **/*
+---
+
+# Global rules for all files
+- All changes should be as simple as possible to achieve the goal. Perform no unnecessary or unrelated refactoring.

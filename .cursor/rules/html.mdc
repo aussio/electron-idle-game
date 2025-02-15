@@ -1,0 +1,8 @@
+---
+description: HTML
+globs: *.html
+---
+
+# HTML
+- All CSS must belong in .css files and not inline within the HTML
+- All Javascript must belong in .js files and not inline within the HTML

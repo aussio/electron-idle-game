@@ -1,0 +1,17 @@
+---
+description: Javascript
+globs: *.js
+---
+
+# Javascript
+- All CSS must belong within CSS files and not inline within the javascript
+- All code should be as simple and readable as possible.
+
+## Modularity, functions, classes
+- Each class should belong in its own file.
+- All functions should remain small and precise. 50 lines is too long and should be broken into multiple functions.
+- Classes should not directly instantiate each other, but rather have their dependencies passed in to their constructor via dependency injection.
+
+## Configuration
+- All magic numbers should be set within configuration files.
+- Use RGBA strings for colors
