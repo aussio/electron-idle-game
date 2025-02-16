@@ -17,7 +17,7 @@ export async function startdragExample(container) {
     // Set the texture's scale mode to nearest to preserve pixelation
     texture.baseTexture.scaleMode = SCALE_MODES.NEAREST;
 
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 12; i++) {
         createBunny(
             Math.floor(Math.random() * app.screen.width),
             Math.floor(Math.random() * app.screen.height)

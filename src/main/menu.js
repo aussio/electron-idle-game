@@ -33,13 +33,25 @@ const template = [
             {
                 label: 'Drag Example',
                 click: (_, window) => {
-                    if (window) window.webContents.send('select-game', 'dragExample')
+                    if (window) {
+                        window.webContents.send('select-game', 'dragExample')
+                    }
                 }
             },
             {
                 label: 'Mouse Trail Example',
                 click: (_, window) => {
-                    if (window) window.webContents.send('select-game', 'mouseTrail')
+                    if (window) {
+                        window.webContents.send('select-game', 'mouseTrail')
+                    }
+                }
+            },
+            {
+                label: 'Snake Mesh',
+                click: (_, window) => {
+                    if (window) {
+                        window.webContents.send('select-game', 'snakeMesh')
+                    }
                 }
             }
         ]

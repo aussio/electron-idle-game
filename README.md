@@ -71,3 +71,7 @@ This is needed to handle worker creation and asset loading in Electron's securit
 
 - [Electron Vite Development Guide](https://electron-vite.org/guide/dev)
 - [PixiJS Getting Started Guide](https://pixijs.com/8.x/guides/basics/getting-started)
+
+## Changelog
+
+- [307ea91] Bootstrap of Electron-vite app with PixiJS with working menu-based game switcher. 
