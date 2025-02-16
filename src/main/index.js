@@ -4,7 +4,16 @@ import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import { createMenu } from './menu'
 
-function createWindow() {
+let store;
+
+async function initStore() {
+  const { default: Store } = await import('electron-store');
+  store = new Store();
+}
+
+async function createWindow() {
+  await initStore();
+
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     width: 900,
@@ -20,6 +29,11 @@ function createWindow() {
 
   mainWindow.on('ready-to-show', () => {
     mainWindow.show()
+    // Load the last selected game
+    const lastGame = store.get('lastGame')
+    if (lastGame) {
+      mainWindow.webContents.send('select-game', lastGame)
+    }
   })
 
   mainWindow.webContents.setWindowOpenHandler((details) => {
@@ -50,8 +64,10 @@ app.whenReady().then(() => {
     optimizer.watchWindowShortcuts(window)
   })
 
-  // IPC test
-  ipcMain.on('ping', () => console.log('pong'))
+  // Save the selected game when it changes
+  ipcMain.on('game-selected', (_, gameName) => {
+    store.set('lastGame', gameName)
+  })
 
   createWindow()
   createMenu()

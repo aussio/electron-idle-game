@@ -17,6 +17,9 @@ if (process.contextIsolated) {
         if (channel === 'select-game') {
           ipcRenderer.on(channel, (_, data) => callback(data))
         }
+      },
+      selectGame: (gameName) => {
+        ipcRenderer.send('game-selected', gameName)
       }
     })
   } catch (error) {
