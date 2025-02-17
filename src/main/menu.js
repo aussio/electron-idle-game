@@ -49,11 +49,11 @@ const template = [
                 }
             },
             {
-                label: 'Snake Mesh',
+                label: 'Tile Map',
                 click: (_, window) => {
                     if (window) {
-                        window.webContents.send('select-game', 'snakeMesh')
-                        window.webContents.send('save-game-selection', 'snakeMesh')
+                        window.webContents.send('select-game', 'tileMap')
+                        window.webContents.send('save-game-selection', 'tileMap')
                     }
                 }
             }

@@ -1,67 +1,68 @@
-import { Application, Assets, Sprite, SCALE_MODES } from 'pixi.js';
-import 'pixi.js/unsafe-eval';
+import { Assets, Sprite } from 'pixi.js';
+import { Game } from '../lib/Game';
 
-export async function startdragExample(container) {
-    // Create a new application
-    const app = new Application();
-
-    // Initialize the application
-    await app.init({ background: '#1099bb', resizeTo: window });
-
-    // Append the application canvas to the container
-    container.appendChild(app.canvas);
-
-    // Load the bunny texture
-    const texture = await Assets.load('https://pixijs.com/assets/bunny.png');
-
-    // Set the texture's scale mode to nearest to preserve pixelation
-    texture.baseTexture.scaleMode = SCALE_MODES.NEAREST;
-
-    for (let i = 0; i < 12; i++) {
-        createBunny(
-            Math.floor(Math.random() * app.screen.width),
-            Math.floor(Math.random() * app.screen.height)
-        );
+export class DragExample extends Game {
+    constructor(container) {
+        super(container);
+        this.dragTarget = null;
     }
 
-    function createBunny(x, y) {
-        const bunny = new Sprite(texture);
+    async loadAssets() {
+        // Load the bunny texture
+        this.texture = await Assets.load('https://pixijs.com/assets/bunny.png');
+        this.texture.source.scaleMode = 'nearest';
+    }
+
+    createBunny(x, y) {
+        const bunny = new Sprite(this.texture);
         bunny.eventMode = 'static';
         bunny.cursor = 'pointer';
         bunny.anchor.set(0.5);
         bunny.scale.set(3);
-        bunny.on('pointerdown', onDragStart, bunny);
+        bunny.on('pointerdown', this.onDragStart.bind(this));
         bunny.x = x;
         bunny.y = y;
-        app.stage.addChild(bunny);
+        this.app.stage.addChild(bunny);
     }
 
-    let dragTarget = null;
-
-    app.stage.eventMode = 'static';
-    app.stage.hitArea = app.screen;
-    app.stage.on('pointerup', onDragEnd);
-    app.stage.on('pointerupoutside', onDragEnd);
-
-    function onDragMove(event) {
-        if (dragTarget) {
-            dragTarget.parent.toLocal(event.global, null, dragTarget.position);
+    onDragMove(event) {
+        if (this.dragTarget) {
+            this.dragTarget.parent.toLocal(event.global, null, this.dragTarget.position);
         }
     }
 
-    function onDragStart() {
-        this.alpha = 0.5;
-        dragTarget = this;
-        app.stage.on('pointermove', onDragMove);
+    onDragStart(event) {
+        const bunny = event.currentTarget;
+        bunny.alpha = 0.5;
+        this.dragTarget = bunny;
+        this.app.stage.on('pointermove', this.onDragMove.bind(this));
     }
 
-    function onDragEnd() {
-        if (dragTarget) {
-            app.stage.off('pointermove', onDragMove);
-            dragTarget.alpha = 1;
-            dragTarget = null;
+    onDragEnd() {
+        if (this.dragTarget) {
+            this.app.stage.off('pointermove', this.onDragMove.bind(this));
+            this.dragTarget.alpha = 1;
+            this.dragTarget = null;
         }
     }
 
-    return app; // Return the app instance for cleanup if needed
-} 
+    async start() {
+        await super.start();
+
+        // Create bunnies
+        for (let i = 0; i < 12; i++) {
+            this.createBunny(
+                Math.floor(Math.random() * this.app.screen.width),
+                Math.floor(Math.random() * this.app.screen.height)
+            );
+        }
+
+        // Set up stage interactions
+        this.app.stage.eventMode = 'static';
+        this.app.stage.hitArea = this.app.screen;
+        this.app.stage.on('pointerup', this.onDragEnd.bind(this));
+        this.app.stage.on('pointerupoutside', this.onDragEnd.bind(this));
+
+        return this.app;
+    }
+}

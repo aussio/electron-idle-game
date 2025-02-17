@@ -74,4 +74,5 @@ This is needed to handle worker creation and asset loading in Electron's securit
 
 ## Changelog
 
+- [f1ef1e5] Refactored games to use a base Game class with consistent interface for bootstrapping, asset loading, and game logic.
 - [307ea91] Bootstrap of Electron-vite app with PixiJS with working menu-based game switcher. 
