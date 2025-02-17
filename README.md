@@ -67,6 +67,22 @@ import 'pixi.js/unsafe-eval';
 
 This is needed to handle worker creation and asset loading in Electron's security context.
 
+## Sprite Sheet Loading
+To convert Kenney assets, I used the python tool in the base of the repo.
+
+### Usage
+Download assets from: https://kenney.nl/assets
+
+```
+# Setup
+python3 -m venv venv
+source venv/bin/activate
+python3 -m pip install pillow
+
+# Convert
+python3 kenney_atlas.py -i ~/medievalRTS_spritesheet.xml -p ~/medievalRTS_spritesheet.png > src/renderer/public/medievalRTS_spritesheet.json
+```
+
 ## Documentation References
 
 - [Electron Vite Development Guide](https://electron-vite.org/guide/dev)
@@ -74,5 +90,6 @@ This is needed to handle worker creation and asset loading in Electron's securit
 
 ## Changelog
 
+- [905a54e] Added spritesheet example.
 - [f1ef1e5] Refactored games to use a base Game class with consistent interface for bootstrapping, asset loading, and game logic.
 - [307ea91] Bootstrap of Electron-vite app with PixiJS with working menu-based game switcher. 

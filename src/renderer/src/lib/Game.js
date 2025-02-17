@@ -27,7 +27,11 @@ export class Game {
 
     async start() {
         await this.bootstrapApplication();
-        await this.loadAssets();
+        try {
+            await this.loadAssets();
+        } catch (error) {
+            console.error('Failed to load assets:', error);
+        }
         // Override this method in child classes to add game-specific logic
     }
 } 
