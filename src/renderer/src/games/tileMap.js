@@ -1,5 +1,4 @@
-import { Assets, Texture, Rectangle, Sprite, Spritesheet } from 'pixi.js';
-import fs from 'fs';
+import { Assets, Sprite, Spritesheet } from 'pixi.js';
 import { Game } from '../lib/Game';
 
 export class TileMap extends Game {
@@ -9,7 +8,7 @@ export class TileMap extends Game {
 
     async loadAssets() {
 
-        const spritesheetData = await fetch('./public/medievalRTS_spritesheet.json').then(res => res.json());
+        const spritesheetData = await fetch('medievalRTS_spritesheet.json').then(res => res.json());
         const spritesheetPng = await Assets.load('medievalRTS_spritesheet.png');
         const spritesheet = new Spritesheet(spritesheetPng, spritesheetData);
         spritesheet.parse()
@@ -25,5 +24,6 @@ export class TileMap extends Game {
     async start() {
         console.log('starting tilemap game');
         await super.start();
+        return this.app;
     }
 }

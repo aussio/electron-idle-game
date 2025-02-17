@@ -33,5 +33,9 @@ export class Game {
             console.error('Failed to load assets:', error);
         }
         // Override this method in child classes to add game-specific logic
+        // Should return this.app
+
+
+        return this.app;
     }
 } 
